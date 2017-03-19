@@ -5,6 +5,7 @@
     "flow"
   ],
   "plugins": [
+    "transform-runtime",
     [
       "module-resolver", {
         "root": ["./src"],
