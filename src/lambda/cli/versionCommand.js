@@ -4,7 +4,7 @@ import { parseParcel } from '@njakob/parcel';
 import pkg from 'package.json';
 import type CLIRuntime from './CLIRuntime';
 
-export default async function versionCommand(runtime: CLIRuntime): Promise<void> {
+export default async function versionCommand(cliRuntime: CLIRuntime): Promise<void> {
   const {
     name,
     version,
@@ -12,7 +12,8 @@ export default async function versionCommand(runtime: CLIRuntime): Promise<void>
     homepage,
   } = parseParcel(pkg);
 
-  runtime.term.log`${runtime.term.white(name && name.name)} ${runtime.term.dim(version)}`;
-  runtime.term.log`Built with ${runtime.term.red('❤')} by ${author && author.name}`;
-  runtime.term.log`${runtime.term.blue(homepage)}`;
+  const term = cliRuntime.term;
+  term.log`${term.white(name && name.name)} ${term.dim(version)}`;
+  term.log`Built with ${term.red('❤')} by ${author && author.name}`;
+  term.log`${term.blue(homepage)}`;
 }
