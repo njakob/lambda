@@ -1,0 +1,59 @@
+{
+  "name": "@njakob/lambda",
+  "version": "0.0.0",
+  "description": "Utils to deploy AWS Lambda functions written in Javascript",
+  "author": "Nicolas Jakob <nicow.jakob@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/njakob/lambda",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/njakob/lambda.git"
+  },
+  "bugs": {
+    "url": "https://github.com/njakob/lambda/issues"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "pack",
+    "build",
+    "bundle",
+    "tool",
+    "cli",
+    "command-line"
+  ],
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "npm run clean && babel -d lib src",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "flow": "flow check",
+    "test": "npm run flow && npm run lint",
+    "bump:major": "npm version major -m \"Bump to %s\"",
+    "bump:minor": "npm version minor -m \"Bump to %s\"",
+    "bump:patch": "npm version patch -m \"Bump to %s\"",
+    "prepublish": "npm run test"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-module-resolver": "^2.4.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "eslint": "^3.12.1",
+    "eslint-config-njakob": "^4.1.0",
+    "eslint-import-resolver-babel-module": "^2.2.1",
+    "eslint-plugin-flowtype": "^2.18.2",
+    "eslint-plugin-import": "^2.2.0",
+    "flow-bin": "^0.37.4",
+    "rimraf": "^2.5.4"
+  },
+  "dependencies": {
+    "@njakob/parcel": "^1.0.1",
+    "@njakob/terminus": "^1.0.0",
+    "bugsy": "^2.1.0",
+    "raclette": "^1.0.2",
+    "yargs": "^6.6.0"
+  }
+}

@@ -1,0 +1,12 @@
+[ignore]
+<PROJECT_ROOT>/lib/.*
+.*/node_modules/@njakob/terminus/.*\.js\.flow$
+.*/node_modules/config-chain/test/.*
+
+[libs]
+
+[include]
+
+[options]
+module.name_mapper='^package.json$' -> '<PROJECT_ROOT>/package.json'
+module.name_mapper='^packer\/\(.*\)$' -> '<PROJECT_ROOT>/src/packer/\1'
