@@ -55,6 +55,7 @@
     "@njakob/terminus": "^1.0.0",
     "babel-runtime": "^6.23.0",
     "bugsy": "^2.1.0",
+    "glob": "^7.1.1",
     "raclette": "^1.0.2",
     "yargs": "^6.6.0"
   }

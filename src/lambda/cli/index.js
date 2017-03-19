@@ -4,6 +4,7 @@ import yargs from 'yargs';
 import { version } from 'package.json';
 import type { CLIRuntimeOptions } from './CLIRuntime';
 import CLIRuntime from './CLIRuntime';
+import showCommand from './showCommand';
 import versionCommand from './versionCommand';
 
 type Command = (runtime: CLIRuntime) => Promise<void>;
@@ -26,6 +27,11 @@ yargs
   .alias('v', 'version')
   .version(version)
   .demandCommand(1)
+  .command({
+    command: 'show',
+    desc: 'Show list of files that would be packed',
+    handler: yargsHandler(showCommand),
+  })
   .command({
     command: 'version',
     desc: 'Show current version',

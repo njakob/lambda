@@ -9,4 +9,4 @@
 
 [options]
 module.name_mapper='^package.json$' -> '<PROJECT_ROOT>/package.json'
-module.name_mapper='^packer\/\(.*\)$' -> '<PROJECT_ROOT>/src/packer/\1'
+module.name_mapper='^lambda\/\(.*\)$' -> '<PROJECT_ROOT>/src/lambda/\1'
