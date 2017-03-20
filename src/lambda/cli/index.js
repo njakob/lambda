@@ -7,6 +7,7 @@ import { version } from 'package.json';
 import type { CLIRuntimeOptions } from './CLIRuntime';
 import CLIRuntime from './CLIRuntime';
 import showCommand from './showCommand';
+import packCommand from './packCommand';
 import versionCommand from './versionCommand';
 
 type Command = (runtime: CLIRuntime) => Promise<void>;
@@ -37,6 +38,13 @@ yargs
     command: 'show',
     desc: 'Show list of files that would be packed',
     handler: yargsHandler(showCommand),
+    builder: (y: any): any => y
+      .option('rc ', { alias: 'r' }),
+  })
+  .command({
+    command: 'pack',
+    desc: 'Create an archive',
+    handler: yargsHandler(packCommand),
     builder: (y: any): any => y
       .option('rc ', { alias: 'r' }),
   })
