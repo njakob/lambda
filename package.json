@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "clean": "rimraf lib",
-    "build": "npm run clean && babel -d lib src",
+    "build": "npm run clean && babel -d lib src --source-maps",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "flow": "flow check",
@@ -57,6 +57,7 @@
     "bugsy": "^2.1.0",
     "glob": "^7.1.1",
     "raclette": "^1.0.2",
+    "source-map-support": "^0.4.14",
     "yargs": "^6.6.0"
   }
 }

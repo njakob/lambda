@@ -1,5 +1,6 @@
 /* @flow */
 
+import 'source-map-support/register';
 import yargs from 'yargs';
 import { Bugsy } from 'bugsy';
 import { version } from 'package.json';
