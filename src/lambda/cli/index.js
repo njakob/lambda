@@ -1,6 +1,7 @@
 /* @flow */
 
 import yargs from 'yargs';
+import { Bugsy } from 'bugsy';
 import { version } from 'package.json';
 import type { CLIRuntimeOptions } from './CLIRuntime';
 import CLIRuntime from './CLIRuntime';
@@ -13,8 +14,12 @@ function yargsHandler(command: Command) {
   return (options: CLIRuntimeOptions) => {
     const runtime = new CLIRuntime(options);
 
-    command(runtime).catch((err: Error) => {
-      runtime.term.log`${runtime.term.bold.red('Error')}: ${err.message}`;
+    command(runtime).catch((err: Error | Bugsy) => {
+      if (err instanceof Bugsy && err.code !== undefined) {
+        runtime.term.log`${runtime.term.bold.red('Error')}: ${err.message}`;
+      } else {
+        runtime.term.log`${runtime.term.bold.red('Unexpected Error')}: ${err.stack}`;
+      }
     });
   };
 }
