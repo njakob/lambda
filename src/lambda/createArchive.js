@@ -22,7 +22,7 @@ export default function createArchive(runtime: Runtime, cwd: string): Promise<Cr
 
     archive.on('error', err => reject(err));
     archive.pipe(stream);
-    archive.glob('**', { cwd, ignore: runtime.ignore });
+    archive.glob('**', { cwd, ignore: runtime.ignoreFilePatterns });
     archive.finalize();
   });
 }

@@ -7,7 +7,7 @@ import createRuntime from './createRuntime';
 
 function globFiles(runtime: Runtime, cwd: string): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
-    glob('**', { cwd, ignore: runtime.ignore }, (err: ?Error, files: Array<string>) => {
+    glob('**', { cwd, ignore: runtime.ignoreFilePatterns }, (err: ?Error, files: Array<string>) => {
       if (err) {
         return reject(err);
       }
