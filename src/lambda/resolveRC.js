@@ -7,9 +7,9 @@ export type RC = {
   ignore: Array<string>;
 };
 
-export default async function resolveRC(): Promise<RC> {
+export default async function resolveRC(rcFileName: string): Promise<RC> {
   const { result: data, entries } = await resolve({
-    name: '.lambdarc',
+    name: rcFileName,
     strategies: [
       strategies.cwd,
     ],

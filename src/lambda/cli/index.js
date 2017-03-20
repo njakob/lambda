@@ -36,6 +36,8 @@ yargs
     command: 'show',
     desc: 'Show list of files that would be packed',
     handler: yargsHandler(showCommand),
+    builder: (y: any): any => y
+      .option('rc ', { alias: 'r' }),
   })
   .command({
     command: 'version',
