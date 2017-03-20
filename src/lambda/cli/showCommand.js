@@ -1,13 +1,24 @@
 /* @flow */
 
+import glob from 'glob';
 import Runtime from 'lambda/Runtime';
-import searchFiles from 'lambda/searchFiles';
 import type CLIRuntime from './CLIRuntime';
+
+function globFiles(runtime: Runtime, cwd: string): Promise<Array<string>> {
+  return new Promise((resolve, reject) => {
+    glob('**', { cwd, ignore: runtime.ignore }, (err: ?Error, files: Array<string>) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(files);
+    });
+  });
+}
 
 export default async function showCommand(cliRuntime: CLIRuntime): Promise<void> {
   const runtime = new Runtime(cliRuntime);
   await runtime.load();
-  const files = await searchFiles(runtime, process.cwd());
+  const files = await globFiles(runtime, process.cwd());
 
   const term = cliRuntime.term;
 
