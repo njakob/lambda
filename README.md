@@ -28,7 +28,11 @@ $ yarn add @njakob/lambda
 ## Usage
 
 ```sh
-$ lambda-packer
+$ lambda show
+```
+
+```sh
+$ lambda pack
 ```
 
 ## Licences
