@@ -11,4 +11,5 @@ export default async function packCommand(cliRuntime: CLIRuntime): Promise<void>
   const term = cliRuntime.term;
 
   term.log`${term.dim(`${writtenBytes} bytes written`)}`;
+  term.log`Archive ${runtime.archiveFilePath} created ${term.green('✓')}`;
 }

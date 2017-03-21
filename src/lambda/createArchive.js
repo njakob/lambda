@@ -1,6 +1,6 @@
 /* @flow */
 
-import { join as pathJoin } from 'path';
+import { join as pathResolve } from 'path';
 import { createWriteStream } from 'fs';
 import archiver from 'archiver';
 import type Runtime from './Runtime';
@@ -11,7 +11,7 @@ type CreateArchiveResult = {
 
 export default function createArchive(runtime: Runtime, cwd: string): Promise<CreateArchiveResult> {
   return new Promise((resolve, reject) => {
-    const stream = createWriteStream(pathJoin(cwd, 'lambda.zip'));
+    const stream = createWriteStream(pathResolve(cwd, runtime.archiveFilePath));
     const archive = archiver('zip', {
       zlib: { level: 9 },
     });

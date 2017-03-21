@@ -49,6 +49,7 @@ yargs
     handler: yargsHandler(packCommand),
     builder: (y: any): any => y
       .option('ignore', { alias: 'n', array: true })
+      .option('archive', { alias: 'a' })
       .option('rc', { alias: 'r' })
       ,
   })
