@@ -6,7 +6,11 @@ import createRuntime from './createRuntime';
 
 export default async function packCommand(cliRuntime: CLIRuntime): Promise<void> {
   const runtime = await createRuntime(cliRuntime);
-  const { writtenBytes } = await createArchive(runtime, process.cwd());
+  const { writtenBytes } = await createArchive({
+    archiveFilePath: runtime.archiveFilePath,
+    cwd: process.cwd(),
+    ignoreFilePatterns: runtime.ignoreFilePatterns,
+  });
 
   const term = cliRuntime.term;
 

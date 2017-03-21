@@ -3,15 +3,24 @@
 import { join as pathResolve } from 'path';
 import { createWriteStream } from 'fs';
 import archiver from 'archiver';
-import type Runtime from './Runtime';
+
+type CreateArchiveOptions = {
+  archiveFilePath: string;
+  cwd: string;
+  ignoreFilePatterns: Array<string>;
+};
 
 type CreateArchiveResult = {
   writtenBytes: number;
 };
 
-export default function createArchive(runtime: Runtime, cwd: string): Promise<CreateArchiveResult> {
+export default function createArchive({
+  archiveFilePath,
+  cwd,
+  ignoreFilePatterns,
+}: CreateArchiveOptions): Promise<CreateArchiveResult> {
   return new Promise((resolve, reject) => {
-    const stream = createWriteStream(pathResolve(cwd, runtime.archiveFilePath));
+    const stream = createWriteStream(pathResolve(cwd, archiveFilePath));
     const archive = archiver('zip', {
       zlib: { level: 9 },
     });
@@ -22,7 +31,7 @@ export default function createArchive(runtime: Runtime, cwd: string): Promise<Cr
 
     archive.on('error', err => reject(err));
     archive.pipe(stream);
-    archive.glob('**', { cwd, ignore: runtime.ignoreFilePatterns });
+    archive.glob('**', { cwd, ignore: ignoreFilePatterns });
     archive.finalize();
   });
 }
