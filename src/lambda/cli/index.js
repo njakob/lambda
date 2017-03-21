@@ -39,7 +39,7 @@ yargs
     desc: 'Show list of files that would be packed',
     handler: yargsHandler(showCommand),
     builder: (y: any): any => y
-      .option('ignore', { alias: 'n', array: true })
+      .option('ignore', { alias: 'i', array: true })
       .option('rc ', { alias: 'r' })
       ,
   })
@@ -48,7 +48,7 @@ yargs
     desc: 'Create an archive',
     handler: yargsHandler(packCommand),
     builder: (y: any): any => y
-      .option('ignore', { alias: 'n', array: true })
+      .option('ignore', { alias: 'i', array: true })
       .option('archive', { alias: 'a' })
       .option('rc', { alias: 'r' })
       ,
