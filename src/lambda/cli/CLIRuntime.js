@@ -1,6 +1,7 @@
 /* @flow */
 
 import Terminus from '@njakob/terminus';
+import resolveRC from 'lambda/resolveRC';
 
 export type CLIRuntimeOptions = {
   rc: ?string;
@@ -12,20 +13,28 @@ export type CLIRuntimeOptions = {
 export default class CLIRuntime {
   rcFileName: string;
   ignorePatterns: ?Array<string>;
-  archiveFileName: ?string;
+  archiveFilePath: ?string;
   verbose: number;
   term: Terminus;
 
-  constructor({
+  constructor() {
+    this.term = new Terminus();
+    this.verbose = 0;
+    this.rcFileName = '.lambdarc';
+  }
+
+  async resolve({
     archive,
     ignore,
-    verbose = 0,
-    rc = '.lambdarc',
-  }: CLIRuntimeOptions) {
-    this.rcFileName = rc;
-    this.archiveFileName = archive;
-    this.ignorePatterns = ignore;
-    this.verbose = verbose;
-    this.term = new Terminus();
+    rc,
+  }): Promise<CLIRuntime> {
+    if (rc) {
+      this.rcFileName = rc;
+    }
+
+    const rcData = await resolveRC(this.rcFileName);
+
+    this.archiveFilePath = archive || rcData.archive || 'lambda.zip';
+    this.ignorePatterns = ignore || rcData.ignore || [];
   }
 }

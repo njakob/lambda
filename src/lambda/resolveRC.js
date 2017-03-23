@@ -4,7 +4,8 @@ import { resolve, strategies, loaders } from 'raclette';
 import * as errors from 'lambda/errors';
 
 export type RC = {
-  ignore: Array<string>;
+  archive: ?Array<string>;
+  ignore: ?string;
 };
 
 export default async function resolveRC(rcFileName: string): Promise<RC> {
@@ -26,9 +27,12 @@ export default async function resolveRC(rcFileName: string): Promise<RC> {
     throw errors.rcNotFound();
   }
 
-  const { ignore = [] } = data;
+  const {
+    archive,
+    ignore,
 
   return {
+    archive,
     ignore,
   };
 }

@@ -1,13 +1,11 @@
 /* @flow */
 
 import glob from 'glob';
-import type Runtime from 'lambda/Runtime';
 import type CLIRuntime from './CLIRuntime';
-import createRuntime from './createRuntime';
 
-function globFiles(runtime: Runtime, cwd: string): Promise<Array<string>> {
+function globFiles(cliRuntime: CLIRuntime, cwd: string): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
-    glob('**', { cwd, ignore: runtime.ignoreFilePatterns }, (err: ?Error, files: Array<string>) => {
+    glob('**', { cwd, ignore: cliRuntime.ignoreFilePatterns }, (err: ?Error, files: Array<string>) => {
       if (err) {
         return reject(err);
       }
@@ -17,10 +15,8 @@ function globFiles(runtime: Runtime, cwd: string): Promise<Array<string>> {
 }
 
 export default async function showCommand(cliRuntime: CLIRuntime): Promise<void> {
-  const runtime = await createRuntime(cliRuntime);
-  const files = await globFiles(runtime, process.cwd());
-
   const term = cliRuntime.term;
+  const files = await globFiles(cliRuntime, process.cwd());
 
   files.forEach((file) => {
     term.log`${file}`;
