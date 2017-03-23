@@ -7,6 +7,7 @@ export type CLIRuntimeOptions = {
   rc: ?string;
   ignore: ?Array<string>;
   archive: ?string;
+  functionName: ?string;
   verbose: number;
 };
 
@@ -14,6 +15,7 @@ export default class CLIRuntime {
   rcFileName: string;
   ignorePatterns: ?Array<string>;
   archiveFilePath: ?string;
+  functionName: ?string;
   verbose: number;
   term: Terminus;
 
@@ -25,6 +27,7 @@ export default class CLIRuntime {
 
   async resolve({
     archive,
+    functionName,
     ignore,
     rc,
   }): Promise<CLIRuntime> {
@@ -35,6 +38,7 @@ export default class CLIRuntime {
     const rcData = await resolveRC(this.rcFileName);
 
     this.archiveFilePath = archive || rcData.archive || 'lambda.zip';
+    this.functionName = functionName || rcData.functionName;
     this.ignorePatterns = ignore || rcData.ignore || [];
   }
 }

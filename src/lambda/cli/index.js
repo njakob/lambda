@@ -8,6 +8,7 @@ import type { CLIRuntimeOptions } from './CLIRuntime';
 import CLIRuntime from './CLIRuntime';
 import showCommand from './showCommand';
 import packCommand from './packCommand';
+import deployCommand from './deployCommand';
 import versionCommand from './versionCommand';
 
 type Command = (runtime: CLIRuntime) => Promise<void>;
@@ -49,6 +50,16 @@ yargs
     handler: yargsHandler(packCommand),
     builder: (y: any): any => y
       .option('ignore', { alias: 'i', array: true })
+      .option('archive', { alias: 'a' })
+      .option('rc', { alias: 'r' })
+      ,
+  })
+  .command({
+    command: 'deploy',
+    desc: 'Deploy an archive to an AWS Lambda',
+    handler: yargsHandler(deployCommand),
+    builder: (y: any): any => y
+      .option('function-name', { alias: 'n' })
       .option('archive', { alias: 'a' })
       .option('rc', { alias: 'r' })
       ,

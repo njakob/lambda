@@ -6,6 +6,7 @@ import * as errors from 'lambda/errors';
 export type RC = {
   archive: ?Array<string>;
   ignore: ?string;
+  functionName: ?string;
 };
 
 export default async function resolveRC(rcFileName: string): Promise<RC> {
@@ -30,9 +31,12 @@ export default async function resolveRC(rcFileName: string): Promise<RC> {
   const {
     archive,
     ignore,
+    'function-name': functionName,
+  } = data;
 
   return {
     archive,
     ignore,
+    functionName,
   };
 }

@@ -1,6 +1,6 @@
 /* @flow */
 
-import { join as pathResolve } from 'path';
+import { resolve as resolvePath } from 'path';
 import { createWriteStream } from 'fs';
 import archiver from 'archiver';
 
@@ -20,7 +20,7 @@ export default function createArchive({
   ignoreFilePatterns,
 }: CreateArchiveOptions): Promise<CreateArchiveResult> {
   return new Promise((resolve, reject) => {
-    const stream = createWriteStream(pathResolve(cwd, archiveFilePath));
+    const stream = createWriteStream(resolvePath(cwd, archiveFilePath));
     const archive = archiver('zip', {
       zlib: { level: 9 },
     });
