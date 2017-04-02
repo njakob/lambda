@@ -1,28 +1,27 @@
 /* @flow */
 
-import { readFile } from 'fs';
-import { resolve as resolvePath } from 'path';
+import prettyBytes from 'pretty-bytes';
+import { WritableStreamBuffer } from 'stream-buffers';
+import pipeArchive from 'lambda/pipeArchive';
 import deployArchive from 'lambda/deployArchive';
 import type CLIRuntime from './CLIRuntime';
-
-async function loadArchive(archiveFilePath: string): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    readFile(archiveFilePath, (err: ?Error, data?: Buffer) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(data);
-    });
-  });
-}
 
 export default async function deployCommand(cliRuntime: CLIRuntime): Promise<void> {
   const term = cliRuntime.term;
   const cwd = process.cwd();
-  const resolvedPath = resolvePath(cwd, cliRuntime.archiveFilePath);
-  const functionName = cliRuntime.functionName;
-  const archiveBuffer = await loadArchive(resolvedPath);
-  await deployArchive({ functionName, archiveBuffer });
 
-  term.log`Lambda ${functionName} deployed ${term.green('✓')}`;
+  term.log`${term.dim(`Use AWS profile ${cliRuntime.profile}`)}`;
+
+  const stream = new WritableStreamBuffer();
+  const { writtenBytes } = await pipeArchive({ cwd, stream, globPatterns: cliRuntime.config.globPatterns });
+  term.log`${term.dim(`${prettyBytes(writtenBytes)} written`)}`;
+
+  const buffer = stream.getContents();
+  await deployArchive({
+    buffer,
+    profile: cliRuntime.profile,
+    region: cliRuntime.region,
+    functionName: cliRuntime.config.functionName,
+  });
+  term.log`Lambda ${cliRuntime.config.functionName} deployed ${term.green('✓')}`;
 }

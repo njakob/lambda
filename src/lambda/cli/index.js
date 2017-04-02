@@ -1,20 +1,19 @@
 /* @flow */
 
 import 'source-map-support/register';
+import dotenv from 'dotenv';
 import yargs from 'yargs';
 import { Bugsy } from 'bugsy';
 import { version } from 'package.json';
-import type { CLIRuntimeOptions } from './CLIRuntime';
+import type { ResolveOptions } from './CLIRuntime';
 import CLIRuntime from './CLIRuntime';
-import showCommand from './showCommand';
-import packCommand from './packCommand';
 import deployCommand from './deployCommand';
 import versionCommand from './versionCommand';
 
 type Command = (runtime: CLIRuntime) => Promise<void>;
 
 function yargsHandler(command: Command) {
-  return (options: CLIRuntimeOptions) => {
+  return (options: ResolveOptions) => {
     const cliRuntime = new CLIRuntime();
     const term = cliRuntime.term;
     cliRuntime.resolve(options).then(() => command(cliRuntime)).catch((err: Error | Bugsy) => {
@@ -27,6 +26,8 @@ function yargsHandler(command: Command) {
   };
 }
 
+dotenv.config();
+
 yargs
   .usage('Usage: $0 <command> [options]')
   .example('$0 status')
@@ -36,32 +37,11 @@ yargs
   .version(version)
   .demandCommand(1)
   .command({
-    command: 'show',
-    desc: 'Show list of files that would be packed',
-    handler: yargsHandler(showCommand),
-    builder: (y: any): any => y
-      .option('ignore', { alias: 'i', array: true })
-      .option('rc ', { alias: 'r' })
-      ,
-  })
-  .command({
-    command: 'pack',
-    desc: 'Create an archive',
-    handler: yargsHandler(packCommand),
-    builder: (y: any): any => y
-      .option('ignore', { alias: 'i', array: true })
-      .option('archive', { alias: 'a' })
-      .option('rc', { alias: 'r' })
-      ,
-  })
-  .command({
     command: 'deploy',
-    desc: 'Deploy an archive to an AWS Lambda',
+    desc: 'Deploy an AWS Lambda function',
     handler: yargsHandler(deployCommand),
     builder: (y: any): any => y
-      .option('function-name', { alias: 'n' })
-      .option('archive', { alias: 'a' })
-      .option('rc', { alias: 'r' })
+      .option('config', { requiresArg: true, alias: 'c' })
       ,
   })
   .command({

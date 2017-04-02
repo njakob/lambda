@@ -1,17 +1,12 @@
 /* @flow */
 
 import { resolve, strategies, loaders } from 'raclette';
+import type { Config } from 'lambda/common';
 import * as errors from 'lambda/errors';
 
-export type RC = {
-  archive: ?Array<string>;
-  ignore: ?string;
-  functionName: ?string;
-};
-
-export default async function resolveRC(rcFileName: string): Promise<RC> {
+export default async function resolveConfig(fileName: string): Promise<Config> {
   const { result: data, entries } = await resolve({
-    name: rcFileName,
+    name: fileName,
     strategies: [
       strategies.cwd,
     ],
@@ -25,18 +20,11 @@ export default async function resolveRC(rcFileName: string): Promise<RC> {
   }
 
   if (entries[0].result === null) {
-    throw errors.rcNotFound();
+    throw errors.configNotFound();
   }
 
-  const {
-    archive,
-    ignore,
-    'function-name': functionName,
-  } = data;
-
   return {
-    archive,
-    ignore,
-    functionName,
+    globPatterns: data.include || [],
+    functionName: data.name
   };
 }

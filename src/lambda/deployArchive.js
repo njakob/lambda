@@ -3,20 +3,26 @@
 import aws from 'aws-sdk';
 
 export type DeployArchiveOptions = {
+  profile: string;
+  region: string;
   functionName: string;
-  archiveBuffer: Buffer;
+  buffer: Buffer;
 };
 
 export default function deployArchive({
+  profile,
+  region,
   functionName,
-  archiveBuffer,
+  buffer,
 }: DeployArchiveOptions): Promise<void> {
   return new Promise((resolve, reject) => {
-    const client = new aws.Lambda();
+    const credentials = new aws.SharedIniFileCredentials({ profile });
+    const config = new aws.Config({ credentials, region });
+    const client = new aws.Lambda({ config });
     client.updateFunctionCode({
       FunctionName: functionName,
       Publish: true,
-      ZipFile: archiveBuffer,
+      ZipFile: buffer,
     }, (err) => {
       if (err) {
         return reject(err);

@@ -2,4 +2,4 @@
 
 export const ASSERTION_FAILED = 'assertion-failed';
 
-export const RC_NOT_FOUND = 'rc-not-found';
+export const CONFIG_NOT_FOUND = 'config-not-found';

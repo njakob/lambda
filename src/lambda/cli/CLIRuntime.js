@@ -1,48 +1,40 @@
 /* @flow */
 
 import Terminus from '@njakob/terminus';
-import resolveRC from 'lambda/resolveRC';
+import type { Config } from 'lambda/common';
+import resolveConfig from 'lambda/resolveConfig';
+import * as errors from 'lambda/errors';
 
-export type CLIRuntimeOptions = {
-  rc: ?string;
-  ignore: ?Array<string>;
-  profile: ?string;
-  archive: ?string;
-  functionName: ?string;
+export type ResolveOptions = {
+  config: string;
   verbose: number;
 };
 
 export default class CLIRuntime {
-  rcFileName: string;
-  ignorePatterns: ?Array<string>;
-  profile: ?string;
-  archiveFilePath: ?string;
-  functionName: ?string;
+  config: Config;
+  profile: string;
+  region: string;
   verbose: number;
   term: Terminus;
 
   constructor() {
     this.term = new Terminus();
     this.verbose = 0;
-    this.rcFileName = '.lambdarc';
   }
 
-  async resolve({
-    archive,
-    functionName,
-    profile,
-    ignore,
-    rc,
-  }): Promise<CLIRuntime> {
-    if (rc) {
-      this.rcFileName = rc;
+  async resolve({ config }: ResolveOptions): Promise<void> {
+    const resolvedProfile = process.env.AWS_PROFILE;
+    const resolvedRegion = process.env.AWS_REGION;
+
+    if (!resolvedProfile) {
+      throw errors.assertionFailed();
+    }
+    if (!resolvedRegion) {
+      throw errors.assertionFailed();
     }
 
-    const rcData = await resolveRC(this.rcFileName);
-
-    this.profile = process.env.AWS_PROFILE || profile;
-    this.archiveFilePath = archive || rcData.archive || 'lambda.zip';
-    this.functionName = functionName || rcData.functionName;
-    this.ignorePatterns = ignore || rcData.ignore || [];
+    this.profile = resolvedProfile;
+    this.region = resolvedRegion;
+    this.config = await resolveConfig(config);
   }
 }
