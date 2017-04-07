@@ -3,8 +3,6 @@
 
 > Utils to deploy AWS Lambda functions written in Javascript.
 
-:rotating_light: WIP
-
 ## Features
 
 * CLI
@@ -27,12 +25,18 @@ $ yarn add @njakob/lambda
 
 ## Usage
 
-```sh
-$ lambda show
+```json
+{
+  "name": "mylambda",
+  "include": [
+    "./build/mylambda.js",
+    "./assets/**",
+  ]
+}
 ```
 
 ```sh
-$ lambda pack
+$ AWS_REGION=eu-central-1 lambda deploy --config mylambda.json
 ```
 
 ## Licences
