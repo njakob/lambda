@@ -22,6 +22,9 @@
     "cli",
     "command-line"
   ],
+  "bin": {
+    "lambda": "bin/lambda.js"
+  },
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run clean && babel -d lib src --source-maps",
