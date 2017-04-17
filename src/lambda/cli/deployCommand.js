@@ -16,13 +16,15 @@ export default async function deployCommand(cliRuntime: CLIRuntime): Promise<voi
     throw errors.assertionFailed();
   }
 
-  reporter.log(reporter.parse`Use AWS profile ${cliRuntime.profile}`, 1);
+  reporter.log(reporter.styles.dim`Use AWS profile ${cliRuntime.profile}`, 1);
 
+  const activity = reporter.activity(reporter.parse`Deploy`);
+
+  activity.tick(reporter.parse`Generate archive`);
   const stream = new WritableStreamBuffer();
   const { writtenBytes } = await pipeArchive({ cwd, stream, globPatterns: config.globPatterns });
 
-  reporter.log(reporter.parse`${prettyBytes(writtenBytes)} written`, 1);
-
+  activity.tick(reporter.parse`Deploy archive to AWS`);
   const buffer = stream.getContents();
   await deployArchive({
     buffer,
@@ -31,5 +33,7 @@ export default async function deployCommand(cliRuntime: CLIRuntime): Promise<voi
     functionName: config.functionName,
   });
 
+  activity.complete();
+  reporter.log(reporter.styles.dim`${prettyBytes(writtenBytes)} written`, 1);
   reporter.success(reporter.parse`Lambda ${config.functionName} deployed`);
 }
