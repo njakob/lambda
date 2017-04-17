@@ -1,7 +1,7 @@
 /* @flow */
 
-import Terminus from '@njakob/terminus';
-import type { Config } from 'lambda/common';
+import { ConsoleReporter } from '@njakob/cli-utils';
+import type { Config } from 'lambda/types';
 import resolveConfig from 'lambda/resolveConfig';
 import * as errors from 'lambda/errors';
 
@@ -11,18 +11,18 @@ export type ResolveOptions = {
 };
 
 export default class CLIRuntime {
-  config: Config;
+  reporter: ConsoleReporter;
+  config: ?Config;
   profile: string;
   region: string;
   verbose: number;
-  term: Terminus;
 
   constructor() {
-    this.term = new Terminus();
     this.verbose = 0;
+    this.reporter = new ConsoleReporter({ verbose: this.verbose });
   }
 
-  async resolve({ config }: ResolveOptions): Promise<void> {
+  async resolve({ config, verbose }: ResolveOptions): Promise<void> {
     const resolvedProfile = process.env.AWS_PROFILE;
     const resolvedRegion = process.env.AWS_REGION;
 
@@ -35,6 +35,11 @@ export default class CLIRuntime {
 
     this.profile = resolvedProfile;
     this.region = resolvedRegion;
-    this.config = await resolveConfig(config);
+    this.verbose = verbose === undefined ? this.verbose : verbose;
+    this.reporter.setVerbose(this.verbose);
+
+    if (config) {
+      this.config = await resolveConfig(config);
+    }
   }
 }

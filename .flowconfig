@@ -8,5 +8,6 @@
 [include]
 
 [options]
+unsafe.enable_getters_and_setters=true
 module.name_mapper='^package.json$' -> '<PROJECT_ROOT>/package.json'
 module.name_mapper='^lambda\/\(.*\)$' -> '<PROJECT_ROOT>/src/lambda/\1'

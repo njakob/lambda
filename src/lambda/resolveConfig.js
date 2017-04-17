@@ -1,7 +1,7 @@
 /* @flow */
 
 import { resolve, strategies, loaders } from 'raclette';
-import type { Config } from 'lambda/common';
+import type { Config } from 'lambda/types';
 import * as errors from 'lambda/errors';
 
 export default async function resolveConfig(fileName: string): Promise<Config> {

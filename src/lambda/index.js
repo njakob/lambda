@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Config } from 'lambda/common';
+import type { Config } from 'lambda/types';
 import pipeArchive from 'lambda/pipeArchive';
 import deployArchive from 'lambda/deployArchive';
 import * as errors from 'lambda/errors';

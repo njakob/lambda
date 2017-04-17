@@ -15,12 +15,12 @@ type Command = (runtime: CLIRuntime) => Promise<void>;
 function yargsHandler(command: Command) {
   return (options: ResolveOptions) => {
     const cliRuntime = new CLIRuntime();
-    const term = cliRuntime.term;
+    const reporter = cliRuntime.reporter;
     cliRuntime.resolve(options).then(() => command(cliRuntime)).catch((err: Error | Bugsy) => {
       if (err instanceof Bugsy && err.code !== undefined) {
-        term.log`${term.bold.red('Error')}: ${err.message}`;
+        reporter.error(reporter.parse`${reporter.styles.bold.red`Error`}: ${err.message}`);
       } else {
-        term.log`${term.bold.red('Unexpected Error')}: ${err.stack}`;
+        reporter.error(reporter.parse`${reporter.styles.bold.red`Unexpected Error`}: ${err.stack}`);
       }
     });
   };
