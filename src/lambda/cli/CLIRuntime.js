@@ -18,7 +18,7 @@ export default class CLIRuntime {
   verbose: number;
 
   constructor() {
-    this.verbose = 0;
+    this.verbose = 1;
     this.reporter = new ConsoleReporter({ verbose: this.verbose });
   }
 
