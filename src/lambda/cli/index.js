@@ -4,7 +4,6 @@ import 'source-map-support/register';
 import dotenv from 'dotenv';
 import yargs from 'yargs';
 import { Bugsy } from 'bugsy';
-import { version } from 'package.json';
 import type { ResolveOptions } from './CLIRuntime';
 import CLIRuntime from './CLIRuntime';
 import deployCommand from './deployCommand';
@@ -33,8 +32,6 @@ yargs
   .example('$0 status')
   .help('h')
   .alias('h', 'help')
-  .alias('v', 'version')
-  .version(version)
   .demandCommand(1)
   .command({
     command: 'deploy',
