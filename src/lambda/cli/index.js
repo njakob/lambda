@@ -32,6 +32,8 @@ yargs
   .example('$0 status')
   .help('h')
   .alias('h', 'help')
+  .alias('v', 'verbose')
+  .count('verbose')
   .demandCommand(1)
   .command({
     command: 'deploy',
