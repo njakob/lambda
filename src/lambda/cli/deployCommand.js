@@ -16,9 +16,9 @@ export default async function deployCommand(cliRuntime: CLIRuntime): Promise<voi
     throw errors.assertionFailed();
   }
 
-  reporter.log(reporter.styles.dim`Use AWS profile ${cliRuntime.profile}`, 1);
+  reporter.info(reporter.parse`Use AWS profile ${cliRuntime.profile}`, 1);
 
-  const activity = reporter.activity(reporter.parse`Deploy`);
+  const activity = reporter.activity(reporter.parse`Bootstrap deployement`);
 
   activity.tick(reporter.parse`Generate archive`);
   const stream = new WritableStreamBuffer();
@@ -34,6 +34,6 @@ export default async function deployCommand(cliRuntime: CLIRuntime): Promise<voi
   });
 
   activity.complete();
-  reporter.log(reporter.styles.dim`${prettyBytes(writtenBytes)} written`, 1);
+  reporter.info(reporter.parse`${prettyBytes(writtenBytes)} written`, 1);
   reporter.success(reporter.parse`Lambda ${config.functionName} deployed`);
 }

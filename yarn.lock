@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@njakob/cli-utils@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@njakob/cli-utils/-/cli-utils-1.1.0.tgz#4716291a782acd164a26feb7be914aceb9c4f150"
+"@njakob/cli-utils@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@njakob/cli-utils/-/cli-utils-1.1.1.tgz#af604d46f086d09ff8d82aa89b4cae95417a9d36"
   dependencies:
     "@njakob/rainbow" "^1.2.1"
 
