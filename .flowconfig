@@ -1,5 +1,6 @@
 [ignore]
 <PROJECT_ROOT>/lib/.*
+<PROJECT_ROOT>/node_modules/conventional-changelog-core/.*
 .*/node_modules/@njakob/terminus/.*\.js\.flow$
 .*/node_modules/config-chain/test/.*
 

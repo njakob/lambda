@@ -27,16 +27,14 @@
   },
   "scripts": {
     "clean": "rimraf lib",
-    "build": "npm run clean && npm run build:source",
     "build:source": "babel -d lib src --source-maps",
     "build:flow": "flow gen-flow-files --out-dir lib src/lambda/index.js",
-    "lint": "eslint .",
+    "build": "npm run clean && npm run build:source",
     "lint:fix": "eslint --fix .",
+    "lint": "eslint .",
     "flow": "flow check",
     "test": "npm run flow && npm run lint",
-    "bump:major": "npm version major -m \"Bump to %s\"",
-    "bump:minor": "npm version minor -m \"Bump to %s\"",
-    "bump:patch": "npm version patch -m \"Bump to %s\"",
+    "release": "standard-version",
     "prepublish": "npm run test"
   },
   "devDependencies": {
@@ -53,7 +51,8 @@
     "eslint-plugin-flowtype": "^2.18.2",
     "eslint-plugin-import": "^2.2.0",
     "flow-bin": "^0.43.1",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "standard-version": "^4.0.0"
   },
   "dependencies": {
     "@njakob/cli-utils": "^1.1.1",
