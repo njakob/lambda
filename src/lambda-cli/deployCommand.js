@@ -3,18 +3,28 @@
 import prettyBytes from 'pretty-bytes';
 import * as streamBuffers from 'stream-buffers';
 import * as lambda from 'lambda';
-import type CLIRuntime from './CLIRuntime';
+import type CLIRuntime, { ResolveOptions } from './CLIRuntime';
 
-export default async function deployCommand(cliRuntime: CLIRuntime): Promise<void> {
+export default async function deployCommand(options: ResolveOptions, cliRuntime: CLIRuntime): Promise<void> {
+  await cliRuntime.resolve(options);
+
   const reporter = cliRuntime.reporter;
   const config = cliRuntime.config;
+  const profile = cliRuntime.profile;
+  const region = cliRuntime.region;
   const cwd = process.cwd();
 
   if (!config) {
     throw lambda.errors.assertionFailed();
   }
+  if (!profile) {
+    throw lambda.errors.assertionFailed();
+  }
+  if (!region) {
+    throw lambda.errors.assertionFailed();
+  }
 
-  reporter.info(reporter.parse`Use AWS profile ${cliRuntime.profile}`, 1);
+  reporter.info(reporter.parse`Use AWS profile ${profile}`, 1);
 
   const activity = reporter.activity(reporter.parse`Bootstrap deployement`);
 
@@ -26,8 +36,8 @@ export default async function deployCommand(cliRuntime: CLIRuntime): Promise<voi
   const buffer = stream.getContents();
   await lambda.deployArchive({
     buffer,
-    profile: cliRuntime.profile,
-    region: cliRuntime.region,
+    profile,
+    region,
     functionName: config.functionName,
   });
 

@@ -12,8 +12,8 @@ export type ResolveOptions = {
 export default class CLIRuntime {
   reporter: cliUtils.ConsoleReporter;
   config: ?Config;
-  profile: string;
-  region: string;
+  profile: ?string;
+  region: ?string;
   verbose: number;
 
   constructor() {
@@ -21,21 +21,15 @@ export default class CLIRuntime {
     this.reporter = new cliUtils.ConsoleReporter({ verbose: this.verbose });
   }
 
-  async resolve({ config, verbose }: ResolveOptions): Promise<void> {
-    const resolvedProfile = process.env.AWS_PROFILE;
-    const resolvedRegion = process.env.AWS_REGION;
-
-    if (!resolvedProfile) {
-      throw lambda.errors.assertionFailed();
-    }
-    if (!resolvedRegion) {
-      throw lambda.errors.assertionFailed();
-    }
-
-    this.profile = resolvedProfile;
-    this.region = resolvedRegion;
+  async resolve({
+    config,
+    verbose,
+  }: ResolveOptions): Promise<void> {
     this.verbose = verbose === undefined ? this.verbose : verbose;
     this.reporter.setVerbose(this.verbose);
+
+    this.profile = process.env.AWS_PROFILE;
+    this.region = process.env.AWS_REGION;
 
     if (config) {
       this.config = await lambda.resolveConfig(config);

@@ -9,14 +9,14 @@ import CLIRuntime from './CLIRuntime';
 import deployCommand from './deployCommand';
 import versionCommand from './versionCommand';
 
-type Command = (runtime: CLIRuntime) => Promise<void>;
+type Command = (options: ResolveOptions, runtime: CLIRuntime) => Promise<void>;
 
 function yargsHandler(command: Command) {
   return (options: ResolveOptions) => {
     const cliRuntime = new CLIRuntime();
     const reporter = cliRuntime.reporter;
 
-    cliRuntime.resolve(options).then(() => command(cliRuntime)).catch((err: Error | bugsy.Bugsy) => {
+    command(options, cliRuntime).catch((err: Error | bugsy.Bugsy) => {
       if (err instanceof bugsy.Bugsy && err.code !== undefined) {
         reporter.error(reporter.parse`${reporter.styles.bold.red`Error`}: ${err.message}`);
       } else {
