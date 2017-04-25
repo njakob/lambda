@@ -1,17 +1,17 @@
 /* @flow */
 
-import { resolve, strategies, loaders } from 'raclette';
+import * as rc from 'raclette';
 import type { Config } from './types';
 import * as errors from './errors';
 
 export default async function resolveConfig(fileName: string): Promise<Config> {
-  const { result: data, entries } = await resolve({
+  const { result: data, entries } = await rc.resolve({
     name: fileName,
     strategies: [
-      strategies.cwd,
+      rc.strategies.cwd,
     ],
     loaders: [
-      loaders.json,
+      rc.loaders.json,
     ],
   });
 

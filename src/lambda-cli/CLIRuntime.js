@@ -1,6 +1,6 @@
 /* @flow */
 
-import { ConsoleReporter } from '@njakob/cli-utils';
+import * as cliUtils from '@njakob/cli-utils';
 import type { Config } from 'lambda';
 import * as lambda from 'lambda';
 
@@ -10,7 +10,7 @@ export type ResolveOptions = {
 };
 
 export default class CLIRuntime {
-  reporter: ConsoleReporter;
+  reporter: cliUtils.ConsoleReporter;
   config: ?Config;
   profile: string;
   region: string;
@@ -18,7 +18,7 @@ export default class CLIRuntime {
 
   constructor() {
     this.verbose = 1;
-    this.reporter = new ConsoleReporter({ verbose: this.verbose });
+    this.reporter = new cliUtils.ConsoleReporter({ verbose: this.verbose });
   }
 
   async resolve({ config, verbose }: ResolveOptions): Promise<void> {

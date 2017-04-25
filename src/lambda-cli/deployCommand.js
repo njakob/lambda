@@ -1,7 +1,7 @@
 /* @flow */
 
 import prettyBytes from 'pretty-bytes';
-import { WritableStreamBuffer } from 'stream-buffers';
+import * as streamBuffers from 'stream-buffers';
 import * as lambda from 'lambda';
 import type CLIRuntime from './CLIRuntime';
 
@@ -19,7 +19,7 @@ export default async function deployCommand(cliRuntime: CLIRuntime): Promise<voi
   const activity = reporter.activity(reporter.parse`Bootstrap deployement`);
 
   activity.tick(reporter.parse`Generate archive`);
-  const stream = new WritableStreamBuffer();
+  const stream = new streamBuffers.WritableStreamBuffer();
   const { writtenBytes } = await lambda.pipeArchive({ cwd, stream, globPatterns: config.globPatterns });
 
   activity.tick(reporter.parse`Deploy archive to AWS`);
