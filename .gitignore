@@ -1,6 +1,8 @@
 coverage/
 lib/
+bin/
 node_modules/
 tmp/
+.commithash
 .env*
 *.log

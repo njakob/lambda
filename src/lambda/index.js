@@ -1,13 +1,15 @@
 /* @flow */
 
-import type { Config } from 'lambda/types';
-import pipeArchive from 'lambda/pipeArchive';
-import deployArchive from 'lambda/deployArchive';
-import * as errors from 'lambda/errors';
-import * as errorCodes from 'lambda/errors/codes';
+import type { Config } from './types';
+import pipeArchive from './pipeArchive';
+import deployArchive from './deployArchive';
+import resolveConfig from './resolveConfig';
+import * as errors from './errors';
+import * as errorCodes from './errors/codes';
 
 export type { Config };
 export { pipeArchive };
 export { deployArchive };
+export { resolveConfig };
 export { errors };
 export { errorCodes };

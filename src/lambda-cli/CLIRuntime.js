@@ -1,9 +1,8 @@
 /* @flow */
 
 import { ConsoleReporter } from '@njakob/cli-utils';
-import type { Config } from 'lambda/types';
-import resolveConfig from 'lambda/resolveConfig';
-import * as errors from 'lambda/errors';
+import type { Config } from 'lambda';
+import * as lambda from 'lambda';
 
 export type ResolveOptions = {
   config: string;
@@ -27,10 +26,10 @@ export default class CLIRuntime {
     const resolvedRegion = process.env.AWS_REGION;
 
     if (!resolvedProfile) {
-      throw errors.assertionFailed();
+      throw lambda.errors.assertionFailed();
     }
     if (!resolvedRegion) {
-      throw errors.assertionFailed();
+      throw lambda.errors.assertionFailed();
     }
 
     this.profile = resolvedProfile;
@@ -39,7 +38,7 @@ export default class CLIRuntime {
     this.reporter.setVerbose(this.verbose);
 
     if (config) {
-      this.config = await resolveConfig(config);
+      this.config = await lambda.resolveConfig(config);
     }
   }
 }

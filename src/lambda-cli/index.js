@@ -1,6 +1,6 @@
 /* @flow */
 
-import 'source-map-support/register';
+import * as sourceMapSupport from 'source-map-support';
 import dotenv from 'dotenv';
 import yargs from 'yargs';
 import { Bugsy } from 'bugsy';
@@ -25,8 +25,10 @@ function yargsHandler(command: Command) {
   };
 }
 
+sourceMapSupport.install();
 dotenv.config();
 
+// eslint-disable-next-line no-unused-expressions
 yargs
   .usage('Usage: $0 <command> [options]')
   .example('$0 status')

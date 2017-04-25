@@ -13,7 +13,7 @@ type PipeArchiveResult = {
   writtenBytes: number;
 };
 
-export default function pipArchive({
+export default function pipeArchive({
   cwd,
   stream,
   globPatterns,

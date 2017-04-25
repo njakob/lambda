@@ -1,14 +1,14 @@
 {
   "presets": [
-    "stage-0",
-    "es2015",
     "flow"
   ],
   "plugins": [
-    "transform-runtime",
+    "syntax-trailing-function-commas",
+    "transform-object-rest-spread",
+    "transform-async-to-generator",
+    "external-helpers",
     [
       "module-resolver", {
-        "root": ["./src"],
         "alias": {
           "package.json": "./package.json"
         }

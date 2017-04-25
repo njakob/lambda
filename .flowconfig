@@ -1,8 +1,9 @@
 [ignore]
 <PROJECT_ROOT>/lib/.*
+<PROJECT_ROOT>/bin/.*
 <PROJECT_ROOT>/node_modules/conventional-changelog-core/.*
-.*/node_modules/@njakob/terminus/.*\.js\.flow$
-.*/node_modules/config-chain/test/.*
+<PROJECT_ROOT>/node_modules/@njakob/parcel/lib/index.js.flow*
+<PROJECT_ROOT>/node_modules/config-chain/test/.*
 
 [libs]
 
@@ -11,4 +12,4 @@
 [options]
 unsafe.enable_getters_and_setters=true
 module.name_mapper='^package.json$' -> '<PROJECT_ROOT>/package.json'
-module.name_mapper='^lambda\/\(.*\)$' -> '<PROJECT_ROOT>/src/lambda/\1'
+module.name_mapper='^lambda\(.*\)$' -> '<PROJECT_ROOT>/src/lambda\1'
