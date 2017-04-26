@@ -10,6 +10,7 @@ export default async function deployCommand(options: ResolveOptions, cliRuntime:
 
   const reporter = cliRuntime.reporter;
   const config = cliRuntime.config;
+
   const profile = cliRuntime.profile;
   const region = cliRuntime.region;
   const cwd = process.cwd();
@@ -24,13 +25,20 @@ export default async function deployCommand(options: ResolveOptions, cliRuntime:
     throw lambda.errors.assertionFailed();
   }
 
+  const functionName = config.functionName;
+  const globPatterns = config.globPatterns;
+
+  if (!functionName) {
+    throw lambda.errors.functionNameRequired();
+  }
+
   reporter.info(reporter.parse`Use AWS profile ${profile}`, 1);
 
   const activity = reporter.activity(reporter.parse`Bootstrap deployement`);
 
   activity.tick(reporter.parse`Generate archive`);
   const stream = new streamBuffers.WritableStreamBuffer();
-  const { writtenBytes } = await lambda.pipeArchive({ cwd, stream, globPatterns: config.globPatterns });
+  const { writtenBytes } = await lambda.pipeArchive({ cwd, stream, globPatterns });
 
   activity.tick(reporter.parse`Deploy archive to AWS`);
   const buffer = stream.getContents();
@@ -38,10 +46,10 @@ export default async function deployCommand(options: ResolveOptions, cliRuntime:
     buffer,
     profile,
     region,
-    functionName: config.functionName,
+    functionName,
   });
 
   activity.complete();
   reporter.info(reporter.parse`${prettyBytes(writtenBytes)} written`, 1);
-  reporter.success(reporter.parse`Lambda ${config.functionName} deployed`);
+  reporter.success(reporter.parse`Lambda ${functionName} deployed`);
 }
