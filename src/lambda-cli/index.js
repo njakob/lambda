@@ -7,6 +7,7 @@ import * as bugsy from 'bugsy';
 import type { ResolveOptions } from './CLIRuntime';
 import CLIRuntime from './CLIRuntime';
 import deployCommand from './deployCommand';
+import packCommand from './packCommand';
 import versionCommand from './versionCommand';
 
 type Command = (options: ResolveOptions, runtime: CLIRuntime) => Promise<void>;
@@ -45,6 +46,11 @@ yargs
     builder: (y: any): any => y
       .option('config', { requiresArg: true, alias: 'c' })
       ,
+  })
+  .command({
+    command: 'pack',
+    desc: 'Pack archive',
+    handler: yargsHandler(packCommand),
   })
   .command({
     command: 'version',
