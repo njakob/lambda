@@ -15,19 +15,13 @@ export default function deployArchive({
   functionName,
   buffer,
 }: DeployArchiveOptions): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const credentials = new aws.SharedIniFileCredentials({ profile });
-    const config = new aws.Config({ credentials, region });
-    const client = new aws.Lambda({ config });
-    client.updateFunctionCode({
-      FunctionName: functionName,
-      Publish: true,
-      ZipFile: buffer,
-    }, (err) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve();
-    });
-  });
+  const credentials = new aws.SharedIniFileCredentials({ profile });
+  const config = new aws.Config({ credentials, region });
+  const client = new aws.Lambda({ config });
+
+  return client.updateFunctionCode({
+    FunctionName: functionName,
+    Publish: true,
+    ZipFile: buffer,
+  }).promise();
 }
