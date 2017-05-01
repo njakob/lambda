@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/njakob/lambda/compare/v1.0.3...v1.1.0) (2017-05-01)
+
+
+### Features
+
+* Add lambda invocation CLI command ([e0f37bc](https://github.com/njakob/lambda/commit/e0f37bc))
+* Add pack command to debug zip archives ([b375741](https://github.com/njakob/lambda/commit/b375741))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/njakob/lambda/compare/v1.0.2...v1.0.3) (2017-04-26)
 
