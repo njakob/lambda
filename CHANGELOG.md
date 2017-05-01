@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/njakob/lambda/compare/v1.1.0...v1.2.0) (2017-05-01)
+
+
+### Features
+
+* Ability to change lambda invocation type ([d02518b](https://github.com/njakob/lambda/commit/d02518b))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/njakob/lambda/compare/v1.0.3...v1.1.0) (2017-05-01)
 
