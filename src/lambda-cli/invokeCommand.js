@@ -13,6 +13,7 @@ export default async function invokeCommand(options: ResolveOptions, cliRuntime:
   const profile = cliRuntime.profile;
   const region = cliRuntime.region;
   const payload = cliRuntime.payload;
+  const invocationType = cliRuntime.invocationType;
 
   if (!config) {
     throw lambda.errors.assertionFailed();
@@ -31,25 +32,57 @@ export default async function invokeCommand(options: ResolveOptions, cliRuntime:
   }
 
   reporter.info(reporter.parse`Use AWS profile ${profile}`, 1);
-
   if (payload) {
-    reporter.info(reporter.parse`Invoke function ${functionName} with ${prettyBytes(payload.length)} payload`);
-  } else {
-    reporter.info(reporter.parse`Invoke function ${functionName}`);
+    reporter.info(reporter.parse`Payload is about ${prettyBytes(payload.length)}`, 2);
   }
 
-  const activity = reporter.activity(reporter.parse`Invoke Lambda`);
+  const activity = reporter.activity();
+
+  switch (invocationType) {
+    case 'RequestResponse':
+      activity.tick(reporter.parse`Invoke lambda ${functionName}`);
+      break;
+    case 'DryRun':
+      activity.tick(reporter.parse`Test invocation of lambda ${functionName}`);
+      break;
+    case 'Event':
+      activity.tick(reporter.parse`Dispatch event to lambda ${functionName}`);
+      break;
+    default:
+      throw lambda.errors.assertionFailed();
+  }
 
   const {
     statusCode,
   } = await lambda.invoke({
+    functionName,
+    invocationType,
+    payload,
     profile,
     region,
-    functionName,
-    payload,
   });
 
   activity.complete();
 
-  reporter.info(reporter.parse`Lambda returned with ${statusCode}`);
+  switch (invocationType) {
+    case 'RequestResponse':
+      reporter.success(reporter.parse`Lambda executed with status code ${statusCode}`, 0);
+      break;
+    case 'DryRun':
+      if (statusCode === 204) {
+        reporter.success(reporter.parse`Invocation tested`);
+      } else {
+        reporter.error(reporter.parse`Invocation failed`);
+      }
+      break;
+    case 'Event':
+      if (statusCode === 202) {
+        reporter.success(reporter.parse`Event dispatched`);
+      } else {
+        reporter.error(reporter.parse`Invocation failed`);
+      }
+      break;
+    default:
+      throw lambda.errors.assertionFailed();
+  }
 }

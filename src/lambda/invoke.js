@@ -3,10 +3,11 @@
 import aws from 'aws-sdk';
 
 export type InvokeOptions = {
-  profile: string;
-  region: string;
+  invocationType: string;
   functionName: string;
   payload?: ?(string | Buffer | Object);
+  profile: string;
+  region: string;
 };
 
 export type Invocation = {
@@ -17,10 +18,11 @@ export type Invocation = {
 };
 
 export default async function invoke({
-  profile,
-  region,
+  invocationType,
   functionName,
   payload,
+  profile,
+  region,
 }: InvokeOptions): Promise<Invocation> {
   const credentials = new aws.SharedIniFileCredentials({ profile });
   const config = new aws.Config({ credentials, region });
@@ -28,7 +30,7 @@ export default async function invoke({
 
   const result = await client.invoke({
     FunctionName: functionName,
-    InvocationType: 'RequestResponse',
+    InvocationType: invocationType,
     Payload: payload,
     Qualifier: '$LATEST',
     LogType: 'Tail',

@@ -54,6 +54,7 @@ yargs
     handler: yargsHandler(invokeCommand),
     builder: (y: any): any => y
       .option('config', { requiresArg: true, alias: 'c' })
+      .option('invocation-type', { default: 'request-response', choices: ['event', 'request-response', 'dry-run'] })
       .option('payload-json')
       ,
   })
