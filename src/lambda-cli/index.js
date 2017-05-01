@@ -7,6 +7,7 @@ import * as bugsy from 'bugsy';
 import type { ResolveOptions } from './CLIRuntime';
 import CLIRuntime from './CLIRuntime';
 import deployCommand from './deployCommand';
+import invokeCommand from './invokeCommand';
 import packCommand from './packCommand';
 import versionCommand from './versionCommand';
 
@@ -45,6 +46,15 @@ yargs
     handler: yargsHandler(deployCommand),
     builder: (y: any): any => y
       .option('config', { requiresArg: true, alias: 'c' })
+      ,
+  })
+  .command({
+    command: 'invoke',
+    desc: 'Invoke AWS Lambda function',
+    handler: yargsHandler(invokeCommand),
+    builder: (y: any): any => y
+      .option('config', { requiresArg: true, alias: 'c' })
+      .option('payload-json')
       ,
   })
   .command({
